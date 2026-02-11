@@ -20,6 +20,22 @@ public class mazzo {
         }
     }
     
+    public carta pescaPrimaCarta(){
+        carta rit=carte.get(0);
+        rimuoviCarta(carte.get(0));
+        
+        return rit;
+    }
+    public void aggiungiCarta(carta c){
+        carte.add(c);
+    }
+    public void rimuoviCarta(carta c){
+        carte.remove(c);
+    }
+    public int contaPunti(){
+        return 0;
+    }
+    
     @Override
     public String toString(){
         for(carta a:carte)

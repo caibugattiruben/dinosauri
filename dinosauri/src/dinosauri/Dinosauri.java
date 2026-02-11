@@ -17,6 +17,7 @@ public class Dinosauri {
         gestoreGioco g=new gestoreGioco();
         g.preparoMazzoTavola();
         g.distribuiscoMazzi();
+        g.giocaCarta();
         g.out();
     }
     

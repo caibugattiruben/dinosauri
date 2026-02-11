@@ -20,6 +20,19 @@ public class Giocatore {
         mazzoInMano=m;
     }
     
+    public carta giocaCarta(){
+        return mazzoInMano.pescaPrimaCarta();
+    }
+    public int contaPunti(){
+        return mazzoPrese.contaPunti();
+    }
+    
+    public void aggiungiCartaPrese(ArrayList<carta> c){
+        for(carta a:c){
+            mazzoPrese.aggiungiCarta(a);
+        }
+    }
+    
     @Override
     public String toString(){
         return ""+mazzoInMano;

@@ -18,7 +18,9 @@ public class gestoreGioco {
     Giocatore g2;
     
     public void preparoMazzoTavola(){
+        ArrayList<String> vuoto=new ArrayList();
         mazzoTavola=f.leggo();
+        carteTavola=new mazzo(vuoto);
     }
     
     public void distribuiscoMazzi(){
@@ -45,10 +47,25 @@ public class gestoreGioco {
         g1=new Giocatore(m1);
         g2=new Giocatore(m2);
     }
+    public void giocaCarta(){
+        aggiungiCarta(carteTavola,g1.giocaCarta());
+        aggiungiCarta(carteTavola,g2.giocaCarta());
+        
+    }
+    public void contaPunti(){
+        
+    }
+    public void rimuoviCarta(carta c){
+        
+    }
+    public void aggiungiCarta(mazzo m,carta c){
+        m.aggiungiCarta(c);
+    }
+    public void vincitoreMano(){
+        
+    }
     
     public void out(){
-        System.out.println(mazzoTavola);
-        System.out.println(g1);
-        System.out.println(g2);
+        System.out.println(carteTavola+"");
     }
 }

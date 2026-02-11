@@ -10,10 +10,11 @@ package dinosauri;
  */
 public class carta {
     private int punti;
+    private colori c;
     
     public carta(String ca){
         ca =ca.toUpperCase();
-        colori c=colori.valueOf(ca);
+        c=colori.valueOf(ca);
         if(c.equals(colori.ROSSO)){
             this.punti=5;
         }
@@ -27,6 +28,18 @@ public class carta {
     
     @Override
     public String toString(){
-        return "siamo su carta vale "+punti;
+        return c.toString();
+    }
+    
+    @Override
+    public boolean equals(Object o){
+        if(o.getClass()!=this.getClass()){
+            return false;
+        }
+        carta obj=(carta)o;
+        if(obj.c.equals(this.c)){
+            return true;
+        }
+        return false;
     }
 }
