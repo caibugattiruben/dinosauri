@@ -13,15 +13,18 @@ import java.util.ArrayList;
 public class Giocatore {
     ArrayList<String> prese=new ArrayList();
     
-    mazzo mazzoInMano;
+    protected mazzo mazzoInMano;
     mazzo mazzoPrese=new mazzo(prese);
+    protected carta ultimaGiocata;
     
     public Giocatore(mazzo m){
         mazzoInMano=m;
     }
     
     public carta giocaCarta(){
-        return mazzoInMano.pescaPrimaCarta();
+        ultimaGiocata=mazzoInMano.pescaPrimaCarta();
+        mazzoInMano.rimuoviCarta();
+        return ultimaGiocata;
     }
     public int contaPunti(){
         return mazzoPrese.contaPunti();
@@ -31,6 +34,14 @@ public class Giocatore {
         for(carta a:c){
             mazzoPrese.aggiungiCarta(a);
         }
+    }
+    
+    public int getSize(){
+        int ritorno=0;
+        for(carta c:mazzoInMano.carte){
+            ritorno=ritorno+1;
+        }
+        return ritorno;
     }
     
     @Override

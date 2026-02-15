@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class mazzo {
     
-    ArrayList<carta> carte=new ArrayList();
+    protected ArrayList<carta> carte=new ArrayList();
     public mazzo(ArrayList<String> a){
         for(String p:a){
             carta cartaSin=new carta(p);
@@ -22,18 +22,38 @@ public class mazzo {
     
     public carta pescaPrimaCarta(){
         carta rit=carte.get(0);
-        rimuoviCarta(carte.get(0));
+        rimuoviCarta();
         
         return rit;
     }
     public void aggiungiCarta(carta c){
         carte.add(c);
     }
-    public void rimuoviCarta(carta c){
-        carte.remove(c);
+    public void rimuoviCarta(){
+        if(carte.size()!=0){
+            carte.remove(carte.get(0));
+        }
+        
+    }
+    public void pulisci(){
+        carte.clear();
     }
     public int contaPunti(){
-        return 0;
+        int ritorno=0;
+        for(carta c:carte){
+            switch (c.toString()){
+                case "ROSSO":
+                    ritorno=ritorno+5;
+                    break;
+                case "VERDE":
+                    ritorno=ritorno+3;
+                    break;
+                case "GIALLO":
+                    ritorno=ritorno+1;
+                    break;
+            }
+        }
+        return ritorno;
     }
     
     @Override
@@ -41,6 +61,6 @@ public class mazzo {
         for(carta a:carte)
         {
             System.out.println(a);}
-        return "siamo su mazzo, queste sono le carte";
+        return (".");
     }
 }

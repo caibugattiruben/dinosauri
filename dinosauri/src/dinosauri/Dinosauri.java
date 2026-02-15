@@ -15,10 +15,7 @@ public class Dinosauri {
      */
     public static void main(String[] args) {
         gestoreGioco g=new gestoreGioco();
-        g.preparoMazzoTavola();
-        g.distribuiscoMazzi();
-        g.giocaCarta();
-        g.out();
+        g.gioca();
     }
     
 }

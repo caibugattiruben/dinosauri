@@ -58,11 +58,61 @@ public class gestoreGioco {
     public void rimuoviCarta(carta c){
         
     }
+    public void gioca(){
+        preparoMazzoTavola();
+        distribuiscoMazzi();
+        
+        while(g1.getSize()!=0&&g2.getSize() !=0){
+            giocaCarta();
+            int v=vincitoreMano();
+            if(v==1){
+                g1.aggiungiCartaPrese(carteTavola.carte);
+                carteTavola.pulisci();
+            }
+            else if(v==2){
+                g2.aggiungiCartaPrese(carteTavola.carte);
+                carteTavola.pulisci();
+            }
+            else{
+                carteTavola.aggiungiCarta(g1.ultimaGiocata);
+                carteTavola.aggiungiCarta(g2.ultimaGiocata);
+            }
+            out();
+        }
+        System.out.println(g1.contaPunti());
+        System.out.println(g2.contaPunti());
+    }
     public void aggiungiCarta(mazzo m,carta c){
         m.aggiungiCarta(c);
     }
-    public void vincitoreMano(){
-        
+    public int vincitoreMano(){
+        switch (g1.ultimaGiocata.toString()){
+            case "ROSSO":
+                if(!g2.ultimaGiocata.toString().equals("ROSSO")){
+                    return 1;
+                }
+                else{
+                    return 0;
+                }
+            case "VERDE":
+                if(g2.ultimaGiocata.toString().equals("ROSSO")){
+                    return 2;
+                }
+                else if(g2.ultimaGiocata.toString().equals("VERDE")){
+                    return 0;
+                }
+                else{
+                    return 1;
+                }
+            case "GIALLO":
+                if(g2.ultimaGiocata.toString().equals("ROSSO")||g2.ultimaGiocata.toString().equals("VERDE")){
+                    return 2;
+                }
+                else{
+                    return 0;
+                }
+        }
+        return 0;
     }
     
     public void out(){
