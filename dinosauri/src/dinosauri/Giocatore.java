@@ -26,6 +26,7 @@ public class Giocatore {
         mazzoInMano.rimuoviCarta();
         return ultimaGiocata;
     }
+    
     public int contaPunti(){
         return mazzoPrese.contaPunti();
     }

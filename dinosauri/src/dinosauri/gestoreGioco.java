@@ -33,30 +33,26 @@ public class gestoreGioco {
             i=i+1;
             String ca=c.toString();
             if(i%2==0){
-                c2.add(ca);
-            }
-            else{
                 c1.add(ca);
             }
+            else{
+                c2.add(ca);
+            }
         }
-        System.out.println(c1);
-        System.out.println(c2);
         m1=new mazzo(c1);
         m2=new mazzo(c2);
         
         g1=new Giocatore(m1);
         g2=new Giocatore(m2);
-    }
+          
+    }//ok
     public void giocaCarta(){
         aggiungiCarta(carteTavola,g1.giocaCarta());
         aggiungiCarta(carteTavola,g2.giocaCarta());
         
     }
-    public void contaPunti(){
-        
-    }
-    public void rimuoviCarta(carta c){
-        
+    public int contaPunti(Giocatore g){
+        return g.contaPunti();
     }
     public void gioca(){
         preparoMazzoTavola();
@@ -68,19 +64,18 @@ public class gestoreGioco {
             if(v==1){
                 g1.aggiungiCartaPrese(carteTavola.carte);
                 carteTavola.pulisci();
+                System.out.println("prende g1");
             }
             else if(v==2){
                 g2.aggiungiCartaPrese(carteTavola.carte);
                 carteTavola.pulisci();
+                System.out.println("prende g2");
             }
-            else{
-                carteTavola.aggiungiCarta(g1.ultimaGiocata);
-                carteTavola.aggiungiCarta(g2.ultimaGiocata);
-            }
+            
             out();
         }
-        System.out.println(g1.contaPunti());
-        System.out.println(g2.contaPunti());
+        System.out.println(this.contaPunti(g1));
+        System.out.println(this.contaPunti(g2));
     }
     public void aggiungiCarta(mazzo m,carta c){
         m.aggiungiCarta(c);
@@ -104,6 +99,7 @@ public class gestoreGioco {
                 else{
                     return 1;
                 }
+                
             case "GIALLO":
                 if(g2.ultimaGiocata.toString().equals("ROSSO")||g2.ultimaGiocata.toString().equals("VERDE")){
                     return 2;
