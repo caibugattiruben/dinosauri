@@ -18,7 +18,7 @@ public class carta {
         if(c.equals(colori.ROSSO)){
             this.punti=5;
         }
-        else if(c.equals(colori.GIALLO)){
+        else if(c.equals(colori.VERDE)){
             this.punti=3;
         }
         else{

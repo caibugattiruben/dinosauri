@@ -22,7 +22,7 @@ public class Giocatore {
     }
     
     public carta giocaCarta(){
-        ultimaGiocata=mazzoInMano.pescaPrimaCarta();
+        this.ultimaGiocata=mazzoInMano.pescaPrimaCarta();
         mazzoInMano.rimuoviCarta();
         return ultimaGiocata;
     }

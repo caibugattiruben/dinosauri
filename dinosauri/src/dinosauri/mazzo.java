@@ -31,7 +31,7 @@ public class mazzo {
     }
     public void rimuoviCarta(){
         if(carte.size()!=0){
-            carte.remove(carte.get(0));
+            carte.remove(0);
         }
         
     }

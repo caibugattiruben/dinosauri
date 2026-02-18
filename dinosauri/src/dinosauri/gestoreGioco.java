@@ -30,7 +30,6 @@ public class gestoreGioco {
         ArrayList<String> c1=new ArrayList();
         ArrayList<String> c2=new ArrayList();
         for(carta c:mazzoTavola.carte){
-            i=i+1;
             String ca=c.toString();
             if(i%2==0){
                 c1.add(ca);
@@ -38,6 +37,7 @@ public class gestoreGioco {
             else{
                 c2.add(ca);
             }
+            i=i+1;
         }
         m1=new mazzo(c1);
         m2=new mazzo(c2);
@@ -47,8 +47,9 @@ public class gestoreGioco {
           
     }//ok
     public void giocaCarta(){
-        aggiungiCarta(carteTavola,g1.giocaCarta());
-        aggiungiCarta(carteTavola,g2.giocaCarta());
+        carteTavola.aggiungiCarta(g1.giocaCarta());
+        carteTavola.aggiungiCarta(g2.giocaCarta());
+        
         
     }
     public int contaPunti(Giocatore g){
@@ -71,14 +72,14 @@ public class gestoreGioco {
                 carteTavola.pulisci();
                 System.out.println("prende g2");
             }
+            else{
+                System.out.println("Pareggio");
+            }
             
             out();
         }
         System.out.println(this.contaPunti(g1));
         System.out.println(this.contaPunti(g2));
-    }
-    public void aggiungiCarta(mazzo m,carta c){
-        m.aggiungiCarta(c);
     }
     public int vincitoreMano(){
         switch (g1.ultimaGiocata.toString()){
@@ -94,18 +95,18 @@ public class gestoreGioco {
                     return 2;
                 }
                 else if(g2.ultimaGiocata.toString().equals("VERDE")){
-                    return 0;
+                    return 1;
                 }
                 else{
-                    return 1;
+                    return 0;
                 }
                 
             case "GIALLO":
-                if(g2.ultimaGiocata.toString().equals("ROSSO")||g2.ultimaGiocata.toString().equals("VERDE")){
-                    return 2;
+                    if(g2.ultimaGiocata.toString().equals("GIALLO")){
+                    return 0;
                 }
                 else{
-                    return 0;
+                    return 2;
                 }
         }
         return 0;
