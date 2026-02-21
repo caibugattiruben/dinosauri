@@ -23,7 +23,6 @@ public class Giocatore {
     
     public carta giocaCarta(){
         this.ultimaGiocata=mazzoInMano.pescaPrimaCarta();
-        mazzoInMano.rimuoviCarta();
         return ultimaGiocata;
     }
     
@@ -38,11 +37,7 @@ public class Giocatore {
     }
     
     public int getSize(){
-        int ritorno=0;
-        for(carta c:mazzoInMano.carte){
-            ritorno=ritorno+1;
-        }
-        return ritorno;
+        return mazzoInMano.carte.size();
     }
     
     @Override

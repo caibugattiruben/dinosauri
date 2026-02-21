@@ -23,7 +23,6 @@ public class mazzo {
     public carta pescaPrimaCarta(){
         carta rit=carte.get(0);
         rimuoviCarta();
-        
         return rit;
     }
     public void aggiungiCarta(carta c){
@@ -60,7 +59,8 @@ public class mazzo {
     public String toString(){
         for(carta a:carte)
         {
-            System.out.println(a);}
+            System.out.println(a);
+        }
         return (".");
     }
 }

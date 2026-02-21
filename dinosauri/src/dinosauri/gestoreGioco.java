@@ -44,6 +44,7 @@ public class gestoreGioco {
         
         g1=new Giocatore(m1);
         g2=new Giocatore(m2);
+        
           
     }//ok
     public void giocaCarta(){
@@ -95,10 +96,10 @@ public class gestoreGioco {
                     return 2;
                 }
                 else if(g2.ultimaGiocata.toString().equals("VERDE")){
-                    return 1;
+                    return 0;
                 }
                 else{
-                    return 0;
+                    return 1;
                 }
                 
             case "GIALLO":

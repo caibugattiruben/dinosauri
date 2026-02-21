@@ -4,6 +4,7 @@
  */
 package dinosauri;
 
+
 /**
  *
  * @author caibugatti.ruben
@@ -15,6 +16,8 @@ public class Dinosauri {
      */
     public static void main(String[] args) {
         gestoreGioco g=new gestoreGioco();
+        gioco f=new gioco();
+        f.setVisible(true);
         g.gioca();
     }
     
