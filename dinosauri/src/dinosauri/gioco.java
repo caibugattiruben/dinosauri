@@ -4,12 +4,21 @@
  */
 package dinosauri;
 
+
+
+
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.ImageIcon;
-
-
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 
 
@@ -20,20 +29,82 @@ import javax.swing.ImageIcon;
 public class gioco extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(gioco.class.getName());
-    ImageIcon icon = new ImageIcon("sfondo.png");
-
-
-     
+    
+    JLabel dino1;
+    JLabel dino2;
+    JLabel punti1;
+    JLabel punti2;
+    JLabel commenti;
+    JButton bottoneGiro;
+    JTextArea carteInTavola;
+    ImageIcon dRosso,dVerde,dGiallo;
+    gestoreGioco g=new gestoreGioco();
+    private int mani=0;
+    
+    int p1=0,p2=0;
+    
+    
     public gioco() {
-        initComponents();
-        jLabel1.setIcon(icon);
-        addComponentListener(new ComponentAdapter() {
+        
+        g.preparoMazzoTavola();
+        g.distribuiscoMazzi();
+        
+        dRosso = new ImageIcon("immagini/dinoRosso.png");
+        dVerde = new ImageIcon("immagini/dinoVerde .png");
+        dGiallo = new ImageIcon("immagini/dinoGiallo.png");
+
+        
+        dino1 = new JLabel();
+        dino2 = new JLabel();
+        punti1 = new JLabel("Punti giocatore 1:");
+        punti2 = new JLabel("Punti giocatore 2:");
+        commenti=new JLabel("BENVENUTI AL GIOCO");
+        punti1.setForeground(Color.WHITE);
+        punti2.setForeground(Color.WHITE);
+        commenti.setForeground(Color.WHITE);
+        
+        bottoneGiro=new JButton("GIOCA PROSSIMA CARTA");
+        bottoneGiro.setBounds(380, 600, 200, 50);
+        bottoneGiro.addActionListener(e -> {
+            clicBottone();
+        });
+        
+        carteInTavola=new JTextArea("CARTE IN TAVOLA");
+        carteInTavola.setEditable(false);
+
+        JPanel panel = new JPanel() {
+            Image imgSfondo = new ImageIcon("immagini/sfondo.png").getImage();
+
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(imgSfondo, 0, 0, getWidth(), getHeight(), this);
+            }
+        };
+        panel.setLayout(null); 
+
+        panel.add(dino1);
+        panel.add(dino2);
+        panel.add(punti1);
+        panel.add(punti2);
+        panel.add(commenti);
+        panel.add(bottoneGiro);
+        panel.add(carteInTavola);
+        
+        panel.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                resizeImage();
+                scalaComponenti();
             }
         });
+        
+        this.setContentPane(panel);
+        this.setSize(1000, 800);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setVisible(true);
+
     }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,21 +117,22 @@ public class gioco extends javax.swing.JFrame {
 
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
 
         jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\ruben\\Desktop\\progettiJava\\INFORMATICA\\dinosauri\\dinosauri\\sfondo.png")); // NOI18N
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1968, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1173, Short.MAX_VALUE)
+        );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1998, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1297, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -87,23 +159,185 @@ public class gioco extends javax.swing.JFrame {
         //</editor-fold>
 
      
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> new gioco().setVisible(true));
-    }
-    
-    private void resizeImage() {
-                int width = this.getContentPane().getWidth();
-                int height = this.getContentPane().getHeight();
-
-                
-                Image scaledImage = icon.getImage().getScaledInstance(width, height, Image.SCALE_SMOOTH);
-                jLabel1.setIcon(new ImageIcon(scaledImage));
+        
         
     }
+    public void scalaLabelImmagine(JLabel label, Image imgOriginale,int xOrig, int yOrig, int largOrig, int altOrig,int panelBaseW, int panelBaseH,int panelAttualeW, int panelAttualeH) {
+
+        double scaleX = panelAttualeW / (double) panelBaseW;
+        double scaleY = panelAttualeH / (double) panelBaseH;
+
+        int x = (int)(xOrig * scaleX);
+        int y = (int)(yOrig * scaleY);
+        int larg = (int)(largOrig * scaleX);
+        int alt = (int)(altOrig * scaleY);
+
+        label.setBounds(x, y, larg, alt);
+
+        Image scaledImg = imgOriginale.getScaledInstance(larg, alt, Image.SCALE_SMOOTH);
+        label.setIcon(new ImageIcon(scaledImg));
+    }
     
+    public void scalaComponenti() {
+        int panelW = getContentPane().getWidth();
+        int panelH = getContentPane().getHeight();
+
+        
+        int x1 = (int)(140 * ((double)panelW / 1000));
+        int y1 = (int)(300 * ((double)panelH / 800));
+        int larg1 = (int)(235 * ((double)panelW / 1000));
+        int alt1 = (int)(296 * ((double)panelH / 800));
+        dino1.setBounds(x1, y1, larg1, alt1);
+        if (dino1.getIcon() != null) {
+            Image img1 = ((ImageIcon)dino1.getIcon()).getImage().getScaledInstance(larg1, alt1, Image.SCALE_SMOOTH);
+            dino1.setIcon(new ImageIcon(img1));
+        }
+
+        
+        int x2 = (int)(630 * ((double)panelW / 1000));
+        int y2 = (int)(300 * ((double)panelH / 800));
+        int larg2 = (int)(235 * ((double)panelW / 1000));
+        int alt2 = (int)(296 * ((double)panelH / 800));
+        dino2.setBounds(x2, y2, larg2, alt2);
+        if (dino2.getIcon() != null) {
+            Image img2 = ((ImageIcon)dino2.getIcon()).getImage().getScaledInstance(larg2, alt2, Image.SCALE_SMOOTH);
+            dino2.setIcon(new ImageIcon(img2));
+        }
+
+        int x3 = (int)(430 * ((double)panelW / 1000));
+        int y3 = (int)(700 * ((double)panelH / 800));
+        int larg3 = (int)(300 * ((double)panelW / 1000));
+        int alt3 = (int)(40 * ((double)panelH / 800));
+        punti1.setBounds(x3, y3, larg3, alt3);
+        
+        int x4 = (int)(430 * ((double)panelW / 1000));
+        int y4 = (int)(390 * ((double)panelH / 800));
+        int larg4 = (int)(300 * ((double)panelW / 1000));
+        int alt4 = (int)(40 * ((double)panelH / 800));
+        punti2.setBounds(x4, y4, larg4, alt4);
+        
+        int x5 = (int)(430 * ((double)panelW / 1000));
+        int y5 = (int)(470 * ((double)panelH / 800));
+        int larg5 = (int)(300 * ((double)panelW / 1000));
+        int alt5 = (int)(40 * ((double)panelH / 800));
+        commenti.setBounds(x5, y5, larg5, alt5);
+        
+        int bx = (int)(380 * ((double)panelW / 1000));
+        int by = (int)(600 * ((double)panelH / 800));
+        int blarg = (int)(200 * ((double)panelW / 1000));
+        int balt = (int)(50 * ((double)panelH / 800));
+        bottoneGiro.setBounds(bx, by, blarg, balt);
+        
+        int tx = (int)(800 * ((double)panelW / 1000));
+        int ty = (int)(0 * ((double)panelH / 800));
+        int tlarg = (int)(200 * ((double)panelW / 1000));
+        int talt = (int)(250 * ((double)panelH / 800));
+        carteInTavola.setBounds(tx, ty, tlarg, talt);
+    }
+    
+    public void clicBottone() {
+        carta[] carte = g.giocaCarta();
+
+        ImageIcon i1, i2;
+
+        if (carte[0].c == colori.ROSSO) {
+            i1 = dRosso;
+        } else if (carte[0].c == colori.VERDE) {
+            i1 = dVerde;
+        } else {
+            i1 = dGiallo;
+        }
+
+        if (carte[1].c == colori.ROSSO) {
+            i2 = dRosso;
+        } else if (carte[1].c == colori.VERDE) {
+            i2 = dVerde;
+        } else {
+            i2 = dGiallo;
+        }
+
+        aggiornaLabel(i1, i2);
+        
+        int vincitore=vittoria();
+        if(vincitore==1){
+            vittoriaMano(g.g1);
+            commenti.setText("PRENDE IL GIOCATORE 1");
+            p1=g.contaPunti(g.g1);
+            punti1.setText("Punti giocatore 1: "+p1);
+        }
+        else if(vincitore==2){
+            vittoriaMano(g.g2);
+            commenti.setText("PRENDE IL GIOCATORE 2");
+            p2=g.contaPunti(g.g2);
+            punti2.setText("Punti giocatore 2: "+p2);
+        }
+        else{
+            commenti.setText("PAREGGIO");
+            aggiornoTextArea(carte);
+        }
+        
+        if(mani==14){
+            bottoneGiro.setEnabled(false);
+            commenti.setText("FINE DEL GIOCO");
+            messaggio();
+        }
+        else{
+            mani=mani+1;
+        }
+    }
+
+    public void aggiornaLabel(ImageIcon i1, ImageIcon i2) {
+        dino1.setIcon(i1);
+        dino2.setIcon(i2);
+
+        scalaComponenti();
+    }
+    
+    public int vittoria(){
+        return g.vincitoreMano();
+    }
+    
+    public void aggiornoTextArea(carta[] c){
+        if (c[0].c == colori.ROSSO) {
+            carteInTavola.setText(carteInTavola.getText()+"\n"+"Carta Rossa");
+        } else if (c[0].c == colori.VERDE) {
+            carteInTavola.setText(carteInTavola.getText()+"\n"+"Carta Verde");
+        } else {
+            carteInTavola.setText(carteInTavola.getText()+"\n"+"Carta Gialla");
+        }
+
+        if (c[1].c == colori.ROSSO) {
+            carteInTavola.setText(carteInTavola.getText()+"\n"+"Carta Rossa");
+        } else if (c[1].c == colori.VERDE) {
+            carteInTavola.setText(carteInTavola.getText()+"\n"+"Carta Verde");
+        } else {
+            carteInTavola.setText(carteInTavola.getText()+"\n"+"Carta Gialla");
+        }
+    }  
+    
+    public void vittoriaMano(Giocatore gio){
+        
+        gio.aggiungiCartaPrese(g.carteTavola.carte);
+        g.carteTavola.pulisci();
+        carteInTavola.setText("CARTE IN TAVOLA");
+            
+    }
+    
+    public void messaggio(){
+        if(p1>p2){
+            JOptionPane.showMessageDialog(null, "HA VINTO IL GIOCATORE 1!!! COMPLIMENTI");
+        }
+        else if(p1<p2){
+            JOptionPane.showMessageDialog(null, "HA VINTO IL GIOCATORE 2!!! COMPLIMENTI");
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "I GIOCATORI HANNO PAREGGIATO");
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
 }

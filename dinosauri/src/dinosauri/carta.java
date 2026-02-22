@@ -10,7 +10,7 @@ package dinosauri;
  */
 public class carta {
     private int punti;
-    private colori c;
+    protected colori c;
     
     public carta(String ca){
         ca =ca.toUpperCase();

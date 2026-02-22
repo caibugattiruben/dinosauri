@@ -47,40 +47,20 @@ public class gestoreGioco {
         
           
     }//ok
-    public void giocaCarta(){
-        carteTavola.aggiungiCarta(g1.giocaCarta());
-        carteTavola.aggiungiCarta(g2.giocaCarta());
+    public carta[] giocaCarta(){
+        carta c1=g1.giocaCarta();
+        carta c2=g2.giocaCarta();
+        
+        carteTavola.aggiungiCarta(c1);
+        carteTavola.aggiungiCarta(c2);
+        
+        carta[] ritorno={c1,c2};
+        return ritorno;
         
         
     }
     public int contaPunti(Giocatore g){
         return g.contaPunti();
-    }
-    public void gioca(){
-        preparoMazzoTavola();
-        distribuiscoMazzi();
-        
-        while(g1.getSize()!=0&&g2.getSize() !=0){
-            giocaCarta();
-            int v=vincitoreMano();
-            if(v==1){
-                g1.aggiungiCartaPrese(carteTavola.carte);
-                carteTavola.pulisci();
-                System.out.println("prende g1");
-            }
-            else if(v==2){
-                g2.aggiungiCartaPrese(carteTavola.carte);
-                carteTavola.pulisci();
-                System.out.println("prende g2");
-            }
-            else{
-                System.out.println("Pareggio");
-            }
-            
-            out();
-        }
-        System.out.println(this.contaPunti(g1));
-        System.out.println(this.contaPunti(g2));
     }
     public int vincitoreMano(){
         switch (g1.ultimaGiocata.toString()){
@@ -111,9 +91,5 @@ public class gestoreGioco {
                 }
         }
         return 0;
-    }
-    
-    public void out(){
-        System.out.println(carteTavola+"");
     }
 }

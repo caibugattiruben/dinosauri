@@ -18,7 +18,7 @@ public class Dinosauri {
         gestoreGioco g=new gestoreGioco();
         gioco f=new gioco();
         f.setVisible(true);
-        g.gioca();
+        
     }
     
 }
