@@ -15,7 +15,6 @@ public class Dinosauri {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        gestoreGioco g=new gestoreGioco();
         gioco f=new gioco();
         f.setVisible(true);
         
