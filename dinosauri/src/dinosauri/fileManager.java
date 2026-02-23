@@ -14,8 +14,19 @@ import java.util.ArrayList;
  * @author caibugatti.ruben
  */
 public class fileManager {
+    /**
+     * Percorso del file contenente le carte.
+     */
     private static String path="mazzo.txt";
-    
+    /**
+     * Legge il file indicato dal path e costruisce
+     * un mazzo contenente le carte lette.
+     * 
+     * Ogni riga del file deve rappresentare
+     * il colore di una carta.
+     * 
+     * @return un oggetto mazzo costruito con le carte lette dal file
+     */
     public static mazzo leggo(){
         ArrayList<String> ritorno=new ArrayList<String>();
         try{

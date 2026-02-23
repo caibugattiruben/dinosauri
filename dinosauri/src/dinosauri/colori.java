@@ -9,7 +9,10 @@ package dinosauri;
  * @author caibugatti.ruben
  */
 public enum colori {
+    /** Colore rosso */
     ROSSO,
+    /** Colore giallo */
     GIALLO,
+    /** Colore verde */
     VERDE;
 }

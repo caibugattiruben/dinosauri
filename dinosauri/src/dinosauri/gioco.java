@@ -29,21 +29,53 @@ import javax.swing.JTextArea;
 public class gioco extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(gioco.class.getName());
-    
+     /** 
+      * Dicharo le label per le immagini
+      */
     JLabel dino1;
     JLabel dino2;
+    /** 
+      * Dicharo le label per i punti dei gioactori
+      */
     JLabel punti1;
     JLabel punti2;
+    /** 
+      * Dicharo la label per i commenti
+      */
     JLabel commenti;
+    /** 
+      * Dicharo il bottone per giocare la mano
+      */
     JButton bottoneGiro;
+    /** 
+      * Dicharo il bottone delle istruzioni
+      */
+    JButton istruzioni;
+    /** 
+      * Dicharo la text area per le carte in tavola
+      */
     JTextArea carteInTavola;
+    /** 
+      * Dicharo le icon delle immagini dei dinosauri
+      */
     ImageIcon dRosso,dVerde,dGiallo;
+    /** 
+     * Gestore della logica del gioco 
+     */
     gestoreGioco g=new gestoreGioco();
+    /** 
+     * Numero di mani giocate 
+     */
     private int mani=0;
-    
+    /** 
+     * Punteggi dei giocatori 
+     */
     int p1=0,p2=0;
-    
-    
+     
+    /**
+     * Costruisce la finestra del gioco, inizializza i componenti grafici
+     * e prepara i mazzi dei giocatori.
+     */
     public gioco() {
         
         g.preparoMazzoTavola();
@@ -68,6 +100,11 @@ public class gioco extends javax.swing.JFrame {
         bottoneGiro.addActionListener(e -> {
             clicBottone();
         });
+        istruzioni=new JButton("ISTRUZIONI");
+        istruzioni.setBounds(600, 700, 150, 30);
+        istruzioni.addActionListener(e -> {
+            istruzioni();
+        });
         
         carteInTavola=new JTextArea("CARTE IN TAVOLA");
         carteInTavola.setEditable(false);
@@ -89,6 +126,7 @@ public class gioco extends javax.swing.JFrame {
         panel.add(punti2);
         panel.add(commenti);
         panel.add(bottoneGiro);
+        panel.add(istruzioni);
         panel.add(carteInTavola);
         
         panel.addComponentListener(new ComponentAdapter() {
@@ -162,6 +200,20 @@ public class gioco extends javax.swing.JFrame {
         
         
     }
+    /**
+     * Scala un'immagine all'interno di una jlabel in base alle dimensioni della finestra.
+     * 
+     * @param label JLabel da scalare
+     * @param imgOriginale immagine originale
+     * @param xOrig coordinata X originale
+     * @param yOrig coordinata Y originale
+     * @param largOrig larghezza originale
+     * @param altOrig altezza originale
+     * @param panelBaseW larghezza base del pannello
+     * @param panelBaseH altezza base del pannello
+     * @param panelAttualeW larghezza attuale del pannello
+     * @param panelAttualeH altezza attuale del pannello
+     */
     public void scalaLabelImmagine(JLabel label, Image imgOriginale,int xOrig, int yOrig, int largOrig, int altOrig,int panelBaseW, int panelBaseH,int panelAttualeW, int panelAttualeH) {
 
         double scaleX = panelAttualeW / (double) panelBaseW;
@@ -177,7 +229,10 @@ public class gioco extends javax.swing.JFrame {
         Image scaledImg = imgOriginale.getScaledInstance(larg, alt, Image.SCALE_SMOOTH);
         label.setIcon(new ImageIcon(scaledImg));
     }
-    
+    /**
+     * Scala le dimensioni e le posizioni di tutti i componenti della GUI
+     * in base alle dimensioni attuali del pannello.
+     */
     public void scalaComponenti() {
         int panelW = getContentPane().getWidth();
         int panelH = getContentPane().getHeight();
@@ -228,13 +283,24 @@ public class gioco extends javax.swing.JFrame {
         int balt = (int)(50 * ((double)panelH / 800));
         bottoneGiro.setBounds(bx, by, blarg, balt);
         
+        int bx1 = (int)(600 * ((double)panelW / 1000));
+        int by1 = (int)(700 * ((double)panelH / 800));
+        int blarg1 = (int)(150 * ((double)panelW / 1000));
+        int balt1 = (int)(30 * ((double)panelH / 800));
+        istruzioni.setBounds(bx1, by1, blarg1, balt1);
+        
         int tx = (int)(800 * ((double)panelW / 1000));
         int ty = (int)(0 * ((double)panelH / 800));
         int tlarg = (int)(200 * ((double)panelW / 1000));
         int talt = (int)(250 * ((double)panelH / 800));
         carteInTavola.setBounds(tx, ty, tlarg, talt);
     }
-    
+    /**
+     * Metodo chiamato quando si preme il pulsante "GIOCA PROSSIMA CARTA".
+     * Gestisce la giocata, aggiorna le icone dei dinosauri, calcola
+     * il vincitore della mano, aggiorna punteggi e commenti,
+     * e disabilita il pulsante a fine partita.
+     */
     public void clicBottone() {
         carta[] carte = g.giocaCarta();
 
@@ -285,18 +351,31 @@ public class gioco extends javax.swing.JFrame {
             mani=mani+1;
         }
     }
-
+    /**
+     * Aggiorna le icone dei dinosauri dei giocatori nella GUI.
+     * 
+     * @param i1 icona del giocatore 1
+     * @param i2 icona del giocatore 2
+     */
     public void aggiornaLabel(ImageIcon i1, ImageIcon i2) {
         dino1.setIcon(i1);
         dino2.setIcon(i2);
 
         scalaComponenti();
     }
-    
+    /**
+     * Determina il vincitore della mano corrente.
+     * 
+     * @return 1 se vince il giocatore 1, 2 se vince il giocatore 2, 0 se pareggio
+     */
     public int vittoria(){
         return g.vincitoreMano();
     }
-    
+    /**
+     * Aggiorna l'area di testo delle carte sul tavolo in caso di pareggio.
+     * 
+     * @param c array di carte giocate in questa mano
+     */
     public void aggiornoTextArea(carta[] c){
         if (c[0].c == colori.ROSSO) {
             carteInTavola.setText(carteInTavola.getText()+"\n"+"Carta Rossa");
@@ -314,7 +393,12 @@ public class gioco extends javax.swing.JFrame {
             carteInTavola.setText(carteInTavola.getText()+"\n"+"Carta Gialla");
         }
     }  
-    
+    /**
+     * Aggiunge le carte vinte al mazzo delle prese del giocatore
+     * e pulisce il mazzo delle carte sul tavolo.
+     * 
+     * @param gio giocatore vincitore della mano
+     */
     public void vittoriaMano(Giocatore gio){
         
         gio.aggiungiCartaPrese(g.carteTavola.carte);
@@ -322,7 +406,10 @@ public class gioco extends javax.swing.JFrame {
         carteInTavola.setText("CARTE IN TAVOLA");
             
     }
-    
+    /**
+     * Mostra un messaggio finale a fine partita indicando il vincitore
+     * o se c'è stato pareggio.
+     */
     public void messaggio(){
         if(p1>p2){
             JOptionPane.showMessageDialog(null, "HA VINTO IL GIOCATORE 1!!! COMPLIMENTI");
@@ -333,6 +420,27 @@ public class gioco extends javax.swing.JFrame {
         else{
             JOptionPane.showMessageDialog(null, "I GIOCATORI HANNO PAREGGIATO");
         }
+    }
+    /**
+     * Mostra una finestra con le istruzioni complete del gioco.
+     */
+    public void istruzioni(){
+        JOptionPane.showMessageDialog(null, "Benvenuto al gioco!\n"
+        + "Premi il pulsante “Gioca Carta” al centro per giocare una carta.\n\n"
+        + "Carte del Giocatore 1 → a sinistra\n"
+        + "Carte del Giocatore 2 → a destra\n\n"
+        + "Le carte giocate vanno sul tavolo → in alto a destra,\n"
+        + "specialmente in caso di pareggio.\n\n"
+        + "Punteggi delle carte:\n"
+        + "ROSSO → 5 punti\n"
+        + "VERDE → 3 punti\n"
+        + "GIALLO → 1 punto\n\n"
+        + "Regole di vittoria:\n"
+        + "ROSSO batte VERDE e GIALLO\n"
+        + "VERDE batte GIALLO\n"
+        + "Stesso colore → pareggio\n\n"
+        + "Vince chi accumula più punti con le carte vinte.\n"
+        + "Continua a premere “Gioca Carta” finché i mazzi non sono vuoti.");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
