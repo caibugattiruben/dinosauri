@@ -27,7 +27,7 @@ import javax.swing.JTextArea;
  * @author ruben
  */
 public class gioco extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(gioco.class.getName());
     
     JLabel dino1;
